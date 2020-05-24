@@ -47,3 +47,15 @@ services:
         oci8_version: 2.1.8
     volumes:
       - ./build/bionic:/host
+
+  focal:
+    build:
+      context: ./builder
+      args:
+        ubuntu_version: focal
+        php_version: 7.3.18
+        php_packages: php7.3-common php7.3 php7.3-cli php7.3-dev php7.3-xml
+        php_ext_conf_dir: /etc/php/7.3/mods-available
+        oci8_version: 2.2.0
+    volumes:
+      - ./build/focal:/host

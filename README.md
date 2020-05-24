@@ -1,3 +1,5 @@
+Added ppa repository: ondrej/php and Ubuntu 20.04
+
 # How to have Oracle database connections in PHP over Ubuntu
 
 ## Before anything

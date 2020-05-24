@@ -14,7 +14,10 @@ ENV DEBIAN_FRONTEND noninteractive
 
 # Install build dependencies
 RUN apt-get update && \
-    apt-get install -y unzip build-essential libaio1 re2c wget ca-certificates
+    apt-get install -y unzip build-essential libaio1 re2c wget ca-certificates \
+	software-properties-common
+
+RUN add-apt-repository ppa:ondrej/php
 
 # Install PHP and PHP development packages
 RUN apt-get update && \
@@ -39,7 +42,7 @@ RUN echo 'instantclient,/opt/oracle/instantclient/lib' | pecl install oci8-${oci
 RUN echo 'extension=oci8.so' > ${php_ext_conf_dir}/oci8.ini
 RUN if [ "${ubuntu_version}" = 'trusty' ]; \
     then ln -s ../../mods-available/oci8.ini /etc/php5/cli/conf.d/20-oci8.ini; \
-    elif [ "${ubuntu_version}" = 'xenial' ] || [ "${ubuntu_version}" = 'bionic' ]; \
+    elif [ "${ubuntu_version}" = 'xenial' ] || [ "${ubuntu_version}" = 'bionic' ] || [ "${ubuntu_version}" = 'focal' ]; \
     then phpenmod oci8; \
     fi
 RUN php -r 'exit(function_exists("oci_connect") ? 0 : 1);'
@@ -60,7 +63,7 @@ WORKDIR /
 RUN echo 'extension=pdo_oci.so' > ${php_ext_conf_dir}/pdo_oci.ini
 RUN if [ "${ubuntu_version}" = 'trusty' ]; \
     then ln -s ../../mods-available/pdo_oci.ini /etc/php5/cli/conf.d/21-pdo_oci.ini; \
-    elif [ "${ubuntu_version}" = 'xenial' ] || [ "${ubuntu_version}" = 'bionic' ]; \
+    elif [ "${ubuntu_version}" = 'xenial' ] || [ "${ubuntu_version}" = 'bionic' ] || [ "${ubuntu_version}" = 'focal' ]; \
     then phpenmod pdo_oci; \
     fi
 RUN php -r 'exit(in_array("oci", PDO::getAvailableDrivers()) ? 0 : 1);'
